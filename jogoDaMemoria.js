@@ -29,12 +29,20 @@ shufflePairs = () => {
     console.log(sequence);
 
     cardPairs = [];
-    
-    sequence.forEach((v,i) => {
+
+    sequence.forEach((v, i) => {
         if (i % 2 === 0) {
-            cardPairs.push([sequence[i], sequence[i+1]]);
+            cardPairs.push([sequence[i], sequence[i + 1]]);
         }
     });
 }
 
+fillCards = () => {
+    cardPairs.forEach((pairElement, pairIndex) => {
+        memoriaCards[pairElement[0]].setAttribute("src", allImages[pairIndex]);
+        memoriaCards[pairElement[1]].setAttribute("src", allImages[pairIndex]);
+    });
+}
+
 shufflePairs();
+fillCards();
