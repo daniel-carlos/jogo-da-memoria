@@ -1,5 +1,8 @@
 const memoriaDiv = $("#memoria")[0];
+
 const memoriaCards = $(".memoria-card");
+
+
 const cardsCount = memoriaCards.length;
 const pairsCount = memoriaCards.length / 2;
 
@@ -24,25 +27,52 @@ function shuffle(array) {
     return array;
 }
 
-shufflePairs = () => {
-    var sequence = shuffle(Array.from(Array(cardsCount).keys()));
-    console.log(sequence);
+var cards = []
 
-    cardPairs = [];
 
-    sequence.forEach((v, i) => {
-        if (i % 2 === 0) {
-            cardPairs.push([sequence[i], sequence[i + 1]]);
+selectCard = (cardIndex) => {
+    console.log(cardIndex);
+}
+
+setupCards = () => {
+    cards = [];
+
+    memoriaCards.each(i => {
+        cards.push({
+            id: i,
+            image: allImages[Math.floor(i / 2)],
+            pair: Math.floor(i / 2),
+            revealed: false,
+            closed: false
+        });
+
+    });
+
+    memoriaCards.click(
+        function () {
+            console.log(cards[$('.memoria-card').index(this)]);
+            // selectCard();
+        }
+    );
+}
+
+shuffleCards = () => {
+    cards = shuffle(cards);
+}
+
+updateCards = () => {
+    cards.forEach((card, i) => {
+        var element = memoriaCards[i];
+
+        if (card.revealed === true) {
+            element.setAttribute("src", card.image);
+        } else {
+            element.setAttribute("src", hiddenImage);
         }
     });
 }
 
-fillCards = () => {
-    cardPairs.forEach((pairElement, pairIndex) => {
-        memoriaCards[pairElement[0]].setAttribute("src", allImages[pairIndex]);
-        memoriaCards[pairElement[1]].setAttribute("src", allImages[pairIndex]);
-    });
-}
 
-shufflePairs();
-fillCards();
+setupCards();
+shuffleCards();
+updateCards();
