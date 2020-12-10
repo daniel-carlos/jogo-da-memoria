@@ -32,6 +32,18 @@ var cards = []
 
 selectCard = (cardIndex) => {
     console.log(cardIndex);
+    cardWithId(cardIndex).revealed = true;
+    updateCards();
+}
+
+cardWithId = (id) => {
+    let c = undefined;
+    cards.forEach(card => {
+        if(c===undefined && card.id === id){
+            c = card;
+        }
+    });
+    return c;
 }
 
 setupCards = () => {
@@ -50,8 +62,9 @@ setupCards = () => {
 
     memoriaCards.click(
         function () {
-            console.log(cards[$('.memoria-card').index(this)]);
-            // selectCard();
+            // selectCard(cards[$('.memoria-card').index(this)].id);
+            console.log($('.memoria-card').index(this));
+            selectCard($('.memoria-card').index(this));
         }
     );
 }
@@ -62,7 +75,7 @@ shuffleCards = () => {
 
 updateCards = () => {
     cards.forEach((card, i) => {
-        var element = memoriaCards[i];
+        var element = memoriaCards[card.id];
 
         if (card.revealed === true) {
             element.setAttribute("src", card.image);
