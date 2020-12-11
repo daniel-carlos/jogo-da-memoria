@@ -2,16 +2,24 @@
 Exemplo e template de jogo da memória com javascript.
 
 ## Como usar
-### Declare as imagens
 
+### Declare os arquivos das imagens
 Dentro de algum de seus scripts, declare uma lista dos arquivos das imagens que serão usadas nos cards do jogo numa variavel chamada `allImages`.
 ```javascript
 const allImages = [
-    "./images/cards/animals/animal (1).jpg",
-    "./images/cards/animals/animal (2).jpg",
-    "./images/cards/animals/animal (3).jpg",
-    "./images/cards/animals/animal (4).jpg"
+    ".path/to/image 1.jpg",
+    ".path/to/image 2.jpg",
+    ".path/to/image 3.jpg",
+    .
+    .
+    .
 ];
+```
+
+### Adicione as imagens ao seu HTML
+Para os cards, use a tag `<img>` com as classes `memoria-card` e `hide-card` como mostrado abaixo. Não precisa atribuir valor ao atributo `src`.
+```html
+<img src="" class="memoria-card hide-card">
 ```
 
 ### Declare a imagem da carta virada
