@@ -54,14 +54,15 @@ selectCard = (cardIndex) => {
             attempts++;
 
             if (selection1.pair == selection2.pair) {
-                console.log("Par Correto");
+                // console.log("Par Correto");
                 selection1.closed = true;
                 selection2.closed = true;
                 selection1 = undefined;
                 selection2 = undefined;
                 totalScore++;
+                checkFinish();
             } else {
-                console.log("Par Errado");
+                // console.log("Par Errado");
                 interact = false;
 
                 setTimeout(() => {
@@ -79,7 +80,16 @@ selectCard = (cardIndex) => {
     }
 
     updateCards();
-    onUpdateCards(totalScore, attempts, selection1, selection2);
+    onUpdateCards(totalScore, attempts, selection1, selection2); //método externo
+}
+
+checkFinish = () => {
+    if (totalScore === pairsCount){
+        interact = false;
+        setTimeout(() => {
+            onFinish(totalScore, attempts); //metodo externo
+        }, 1000);
+    }
 }
 
 cardWithId = (id) => {
