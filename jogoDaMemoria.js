@@ -29,17 +29,61 @@ function shuffle(array) {
 
 var cards = []
 
+var selection1 = undefined;
+var selection2 = undefined;
+
+var interact = true;
 
 selectCard = (cardIndex) => {
-    console.log(cardIndex);
-    cardWithId(cardIndex).revealed = true;
+    const card = cards[cardIndex];
+    
+    if (interact === false || card.closed === true || card.revealed === true) {
+        return;
+    }
+
+    if (selection1 === undefined) {
+        if (selection2 === undefined) {
+            selection1 = card;
+            card.revealed = true;
+        } else {
+
+        }
+    } else {
+        if (selection2 === undefined) {
+            selection2 = card;
+            card.revealed = true;
+
+            if (selection1.pair == selection2.pair) {
+                console.log("Par Correto");
+                selection1.closed = true;
+                selection2.closed = true;
+                selection1 = undefined;
+                selection2 = undefined;
+            } else {
+                console.log("Par Errado");
+                interact = false;
+
+                setTimeout(() => {
+                    selection1.revealed = false;
+                    selection2.revealed = false;
+                    selection1 = undefined;
+                    selection2 = undefined;
+                    interact = true;
+                    updateCards();
+                }, 1000);
+            }
+        } else {
+
+        }
+    }
+
     updateCards();
 }
 
 cardWithId = (id) => {
     let c = undefined;
     cards.forEach(card => {
-        if(c===undefined && card.id === id){
+        if (c === undefined && card.id === id) {
             c = card;
         }
     });
@@ -62,20 +106,29 @@ setupCards = () => {
 
     memoriaCards.click(
         function () {
-            // selectCard(cards[$('.memoria-card').index(this)].id);
-            console.log($('.memoria-card').index(this));
             selectCard($('.memoria-card').index(this));
+            // selectCard(cardWithId($('.memoria-card').index(this)));
         }
     );
+
 }
 
 shuffleCards = () => {
     cards = shuffle(cards);
 }
 
+hideCards = () => {
+    cards.forEach(card => {
+        if (card.closed === false) {
+            cards.revealed = false;
+        }
+    });
+}
+
 updateCards = () => {
     cards.forEach((card, i) => {
-        var element = memoriaCards[card.id];
+        var element = memoriaCards[i];
+        // var element = memoriaCards[cardWithId(i)];
 
         if (card.revealed === true) {
             element.setAttribute("src", card.image);
@@ -84,7 +137,6 @@ updateCards = () => {
         }
     });
 }
-
 
 setupCards();
 shuffleCards();
