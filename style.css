@@ -1,8 +1,20 @@
-
-
 .memoria-card{
     width: 160px;
     height: 100px;
     object-fit: contain;
     border: 1px solid;
+}
+
+.show-card{
+    border: 3px solid;
+    border-color: greenyellow;
+}
+
+.hide-card{
+    border: none;
+}
+
+.closed-card{
+    border: 3px solid;
+    border-color: gold !important;
 }

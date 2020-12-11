@@ -1,12 +1,10 @@
 const memoriaDiv = $("#memoria")[0];
-
 const memoriaCards = $(".memoria-card");
-
-
 const cardsCount = memoriaCards.length;
 const pairsCount = memoriaCards.length / 2;
 
-var cardPairs = [];
+var totalScore = 0;
+var attempts = 0;
 
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -53,12 +51,15 @@ selectCard = (cardIndex) => {
             selection2 = card;
             card.revealed = true;
 
+            attempts++;
+
             if (selection1.pair == selection2.pair) {
                 console.log("Par Correto");
                 selection1.closed = true;
                 selection2.closed = true;
                 selection1 = undefined;
                 selection2 = undefined;
+                totalScore++;
             } else {
                 console.log("Par Errado");
                 interact = false;
@@ -78,6 +79,7 @@ selectCard = (cardIndex) => {
     }
 
     updateCards();
+    onUpdateCards(totalScore, attempts, selection1, selection2);
 }
 
 cardWithId = (id) => {
@@ -107,7 +109,6 @@ setupCards = () => {
     memoriaCards.click(
         function () {
             selectCard($('.memoria-card').index(this));
-            // selectCard(cardWithId($('.memoria-card').index(this)));
         }
     );
 
@@ -128,12 +129,19 @@ hideCards = () => {
 updateCards = () => {
     cards.forEach((card, i) => {
         var element = memoriaCards[i];
-        // var element = memoriaCards[cardWithId(i)];
 
         if (card.revealed === true) {
             element.setAttribute("src", card.image);
+            element.classList.add("show-card");
+            element.classList.remove("hide-card");
         } else {
             element.setAttribute("src", hiddenImage);
+            element.classList.remove("show-card");
+            element.classList.add("hide-card");
+        }
+        
+        if(card.closed === true){
+            element.classList.add("closed-card");
         }
     });
 }
